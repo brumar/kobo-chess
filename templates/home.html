@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Chess puzzles</h1>
+<p class="center">Pick the rating closest to your level.<br>Each band holds puzzles around that rating (your Elo &plusmn; 50).</p>
+{% for b in bands %}
+<a class="btn" href="{{ b.href }}">{{ b.lo }} &ndash; {{ b.hi }}{% if b.count < per_band %} <span class="muted">({{ b.count }})</span>{% endif %}</a>
+{% endfor %}
+<p class="muted">Pool {{ pool_id }} &middot; {{ total }} puzzles</p>
+<p class="muted">Puzzles from <a href="https://database.lichess.org/#puzzles">Lichess</a> (CC0). Not affiliated with Lichess.</p>
+{% endblock %}

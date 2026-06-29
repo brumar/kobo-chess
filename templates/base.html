@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ title }}</title>
+<style>
+/* Kobo-safe CSS: no flexbox, no grid, no web fonts. Old-WebKit + e-ink friendly. */
+* { box-sizing: border-box; }
+body { margin: 0; padding: 12px; background: #fff; color: #000;
+       font-family: serif; font-size: 18px; line-height: 1.4; }
+.wrap { max-width: 520px; margin: 0 auto; }
+h1 { font-size: 27px; text-align: center; margin: 6px 0 10px; }
+h2 { font-size: 20px; text-align: center; margin: 6px 0; }
+p  { margin: 8px 0; }
+.center { text-align: center; }
+.muted { color: #555; font-size: 15px; text-align: center; margin: 4px 0; }
+img.board { display: block; width: 100%; max-width: {{ board_px }}px; height: auto;
+            margin: 8px auto; border: 1px solid #000; }
+a.btn { display: block; width: 100%; border: 2px solid #000; padding: 16px 8px;
+        margin: 12px 0; text-align: center; font-size: 21px;
+        text-decoration: none; color: #000; }
+/* 3-cell navigation bar built with a table (no flexbox) */
+table.nav { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: 12px; }
+table.nav td { border: 1px solid #000; text-align: center; padding: 0; }
+table.nav td a { display: block; padding: 15px 4px; text-decoration: none; color: #000; font-size: 17px; }
+table.nav td.dim { color: #aaa; padding: 15px 4px; font-size: 17px; }
+/* Puzzle grid on a band page */
+table.grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
+table.grid td { border: 1px solid #000; padding: 0; }
+table.grid td a { display: block; padding: 14px 0; text-align: center;
+                  text-decoration: none; color: #000; font-size: 18px; }
+/* Browser history = "seen" memory: opened puzzles go grey. No JS, no cookies. */
+table.grid td a:visited { color: #999; background: #e0e0e0; }
+.san { font-size: 21px; text-align: center; margin: 12px 0; line-height: 1.6; }
+.lichess { font-size: 14px; text-align: center; word-break: break-all; }
+</style>
+</head>
+<body>
+<div class="wrap">
+{% block body %}{% endblock %}
+</div>
+</body>
+</html>

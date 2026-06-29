@@ -1,0 +1,11 @@
+# Big dataset (826 MB) and downloader bookkeeping — never commit
+data/
+.cache/
+
+# Generated site output
+site/
+
+# Python
+__pycache__/
+*.pyc
+.venv/

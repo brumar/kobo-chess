@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Solution</h1>
+<img class="board" src="{{ img }}" alt="solution position">
+<p class="san">{{ san }}</p>
+<p class="muted">Puzzle {{ n }} of {{ total }} &middot; rating {{ rating }}</p>
+<a class="btn" href="{{ puzzle_href }}">&larr; Back to puzzle</a>
+<table class="nav">
+<tr>
+<td><a href="{{ index_href }}">List</a></td>
+{% if next_href %}<td><a href="{{ next_href }}">Next puzzle &rarr;</a></td>{% else %}<td class="dim">Next &rarr;</td>{% endif %}
+</tr>
+</table>
+<p class="lichess">lichess.org/training/{{ puzzle_id }}</p>
+{% endblock %}

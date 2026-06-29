@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>{{ color }}</h1>
+<img class="board" src="{{ img }}" alt="chess position, {{ color }}">
+<p class="center">Find the best move.</p>
+<a class="btn" href="{{ solution_href }}">Show solution</a>
+<p class="muted">Puzzle {{ n }} of {{ total }} &middot; rating {{ lo }}&ndash;{{ hi }}</p>
+<table class="nav">
+<tr>
+{% if prev_href %}<td><a href="{{ prev_href }}">&larr; Prev</a></td>{% else %}<td class="dim">&larr; Prev</td>{% endif %}
+<td><a href="{{ index_href }}">List</a></td>
+{% if next_href %}<td><a href="{{ next_href }}">Next &rarr;</a></td>{% else %}<td class="dim">Next &rarr;</td>{% endif %}
+</tr>
+</table>
+{% endblock %}

@@ -1,0 +1,54 @@
+name: Monthly puzzle rollout
+
+# Rebuilds a fresh puzzle pool from the latest Lichess dataset and deploys to GitHub Pages.
+# Runs on the 1st of every month, and can be triggered manually.
+
+on:
+  schedule:
+    - cron: "0 6 1 * *"   # 06:00 UTC on the 1st of each month
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deploy at a time; let a new run supersede an in-progress one.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Download Lichess puzzle dataset (CC0)
+        run: |
+          uv tool run --from "huggingface_hub[cli,hf_xet]" hf download \
+            Lichess/chess-puzzles --repo-type dataset --local-dir . \
+            --include "data/*.parquet"
+
+      - name: Build site (fresh monthly pool)
+        run: |
+          POOL="$(date -u +%Y-%m)"
+          SEED="$(date -u +%Y%m)"
+          echo "Building pool $POOL (seed $SEED)"
+          uv run build.py --pool-id "$POOL" --seed "$SEED"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

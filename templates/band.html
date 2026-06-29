@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>Rating {{ lo }} &ndash; {{ hi }}</h1>
+<p class="muted">{{ count }} puzzles. Opened ones turn grey.</p>
+<table class="grid">
+{% for row in rows %}
+<tr>
+{% for p in row %}
+<td><a href="{{ p.href }}">{{ p.n }}</a></td>
+{% endfor %}
+{% for _ in range(cols - row|length) %}<td>&nbsp;</td>{% endfor %}
+</tr>
+{% endfor %}
+</table>
+<table class="nav">
+<tr><td><a href="{{ home_href }}">&larr; Ratings</a></td></tr>
+</table>
+{% endblock %}

@@ -1,0 +1,25 @@
+# kobo_chess pool configuration.
+# Same config + same dataset => same site (deterministic build).
+# To rotate the pool to fresh puzzles: bump pool_id AND seed, then rebuild.
+
+pool_id = "2026-06a"        # appears in the output path + URLs (acts as cache-buster on rotation)
+seed    = 20260629          # drives the deterministic puzzle pick; change to get different puzzles
+
+# Rating bands: solver picks the band nearest their Elo (each band is "your Elo +/- 50").
+rating_min  = 500           # lowest band starts here
+rating_max  = 2000          # highest band ends here (exclusive top)
+band_width  = 100           # 500-600, 600-700, ... 1900-2000  => 15 bands
+per_band    = 100           # target puzzles per band
+
+# Quality gates (strictest tier). If a band can't fill per_band at this tier,
+# the build automatically relaxes through looser tiers (see build.py TIERS) and logs it.
+popularity_min   = 90       # Lichess community score (-100..100); 90+ is well-liked
+nbplays_min      = 1000     # only puzzles played enough that the rating has settled
+rating_dev_max   = 80       # low Glicko deviation => trustworthy rating
+max_solver_moves = 5        # cap solution length (keeps e-ink pages light); >=1 always
+
+# Rendering
+board_px = 480              # board image size in pixels (tune on the device)
+
+# Provenance (informational for now)
+dataset_snapshot = "lichess-2026-06-11"
