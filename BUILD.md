@@ -36,17 +36,16 @@ Old pools stay until you delete their folder.
 - `max_solver_moves` — caps solution length.
 - `board_px` — board image size; tune on the actual device.
 
-## Deploy to GitHub Pages (HTTPS confirmed working on the target Kobo)
-```
-cd site
-git init -b gh-pages
-touch .nojekyll                 # stop Jekyll from touching the files
-git add -A && git commit -m "pool 2026-06a"
-git remote add origin <your-repo-url>
-git push -f origin gh-pages
-```
-Then enable Pages on the `gh-pages` branch. Entry URL: `https://<user>.github.io/<repo>/`.
-(`site/` is gitignored in the main repo; deploy it as its own Pages branch/repo.)
+## Deploy (automatic, via GitHub Actions)
+Deployment is handled by `.github/workflows/rollout.yml`. It runs on the **1st of every month**
+(and on manual trigger), downloads the latest Lichess dataset, builds a fresh pool stamped with
+the current month (`--pool-id YYYY-MM --seed YYYYMM`), and publishes to GitHub Pages.
+
+- Live site: **https://brumar.github.io/kobo-chess/**
+- Pages source is "GitHub Actions" (not a branch); `site/` stays gitignored.
+- Trigger a deploy by hand: `gh workflow run rollout.yml` (then watch with `gh run watch`).
+- Each monthly deploy replaces the whole site with that month's pool, so URLs are fresh and the
+  browser-history "seen" state resets naturally.
 
 ## Verify reproducibility before shipping
 ```
