@@ -11,7 +11,7 @@ uv run build.py              # full build -> ./site/  (reads config.toml)
 uv run build.py --limit 5    # quick test: 5 puzzles per band
 ```
 Deterministic: same `config.toml` + same dataset => byte-identical `site/`.
-Takes ~30s and produces ~1500 puzzles / ~46 MB.
+Takes ~50s and produces ~2700 puzzles / ~80 MB.
 
 ## Layout produced
 ```
@@ -32,7 +32,8 @@ Old pools stay until you delete their folder.
 ## Tuning knobs (config.toml)
 - `rating_min/max`, `band_width`, `per_band` — band layout and size.
 - `popularity_min`, `nbplays_min`, `rating_dev_max` — quality gates (auto-relax per band
-  if a band can't fill; the 500-600 band currently relaxes one tier).
+  if a band can't fill; the low (300-600) and high (2600-3000) tail bands currently
+  relax one tier since Lichess has fewer very-easy/very-hard puzzles).
 - `max_solver_moves` — caps solution length.
 - `board_px` — board image size; tune on the actual device.
 

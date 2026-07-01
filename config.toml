@@ -6,9 +6,9 @@ pool_id = "2026-06a"        # appears in the output path + URLs (acts as cache-b
 seed    = 20260629          # drives the deterministic puzzle pick; change to get different puzzles
 
 # Rating bands: solver picks the band nearest their Elo (each band is "your Elo +/- 50").
-rating_min  = 500           # lowest band starts here
-rating_max  = 2000          # highest band ends here (exclusive top)
-band_width  = 100           # 500-600, 600-700, ... 1900-2000  => 15 bands
+rating_min  = 300           # lowest band starts here
+rating_max  = 3000          # highest band ends here (exclusive top)
+band_width  = 100           # 300-400, 400-500, ... 2900-3000  => 27 bands
 per_band    = 100           # target puzzles per band
 
 # Quality gates (strictest tier). If a band can't fill per_band at this tier,
