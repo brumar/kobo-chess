@@ -7,9 +7,11 @@ build time; every page is plain HTML with **no JavaScript and no cookies**. Navi
 
 **Live site:** https://brumar.github.io/kobo-chess/
 
-Puzzles are grouped into Elo bands (500–2000, in steps of 100, ~100 puzzles each). You pick the
-band nearest your rating, solve, and reveal the solution on a separate page. The pool is
-**rotated automatically every month** by a GitHub Actions workflow.
+Puzzles are grouped into Elo bands (300–3000, in steps of 100, ~100 puzzles each). You pick the
+band nearest your rating, solve, and reveal the solution on a separate page. Each band can also
+be **downloaded as an EPUB** (puzzle on one page, solution on the next), which the Kobo browser
+saves straight into the device library for offline solving. The pool is **rotated automatically
+every month** by a GitHub Actions workflow.
 
 ## Credit
 

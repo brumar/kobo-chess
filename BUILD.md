@@ -3,15 +3,18 @@
 ## What this is
 A fully static puzzle site for the Kobo browser. Boards are pre-rendered to grayscale
 PNGs at build time; pages are plain HTML with no JavaScript and no cookies. Navigation,
-"show solution", and "seen" marking all work as ordinary links.
+"show solution", and "seen" marking all work as ordinary links. Each rating band also
+ships as a downloadable EPUB (puzzle on one page, solution on the next; tapping the
+link in the Kobo browser saves it straight into the device library for offline solving).
 
 ## Build
 ```
 uv run build.py              # full build -> ./site/  (reads config.toml)
 uv run build.py --limit 5    # quick test: 5 puzzles per band
 ```
-Deterministic: same `config.toml` + same dataset => byte-identical `site/`.
-Takes ~50s and produces ~2700 puzzles / ~80 MB.
+Deterministic: same `config.toml` + same dataset => byte-identical `site/` (fixed zip
+timestamps keep the EPUBs reproducible too).
+Takes ~2 min and produces ~2700 puzzles / ~130 MB (~80 MB pages+boards, ~51 MB EPUBs).
 
 ## Layout produced
 ```
@@ -20,7 +23,8 @@ site/p/<pool_id>/b0500/index.html       # band 500-600: grid of 100 puzzle links
 site/p/<pool_id>/b0500/p001.html        # puzzle page (board + "show solution")
 site/p/<pool_id>/b0500/s001.html        # solution page (key move + SAN line + rating)
 site/p/<pool_id>/b0500/img/*.png        # board images
-site/p/<pool_id>/manifest.json          # config echo + chosen puzzle ids per band
+site/p/<pool_id>/b0500/chess-puzzles-<pool_id>-0500-0600.epub   # band as an offline book
+site/p/<pool_id>/manifest.json          # config echo + chosen puzzle ids + epub per band
 ```
 
 ## Rotate the pool (manual)
@@ -55,8 +59,12 @@ uv run build.py --out /tmp/site_b
 diff -r /tmp/site_a /tmp/site_b      # expect no output
 ```
 
-## Known item to check on the real Kobo
-The "opened puzzles turn grey" feature uses CSS `:visited` (browser history as memory).
-Modern desktop Chrome suppresses `:visited` for privacy, so it cannot be previewed there,
-but the old Kobo engine should honor it. If a given Kobo wipes history or ignores
-`:visited`, the "Puzzle N of 100" counter + the device bookmark are the fallback.
+## Known items to check on the real Kobo
+- The "opened puzzles turn grey" feature uses CSS `:visited` (browser history as memory).
+  Modern desktop Chrome suppresses `:visited` for privacy, so it cannot be previewed there,
+  but the old Kobo engine should honor it. If a given Kobo wipes history or ignores
+  `:visited`, the "Puzzle N of 100" counter + the device bookmark are the fallback.
+- The "Download as EPUB" button on a band page relies on the Kobo browser's
+  download-to-library behavior for tapped `.epub` links (works on most firmware).
+  The EPUBs are EPUB2+NCX and pass `epubcheck`, but page flow (puzzle page ->
+  page-turn -> solution page) should be eyeballed once on the device.
